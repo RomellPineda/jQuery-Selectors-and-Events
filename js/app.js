@@ -32,6 +32,7 @@ Horn.prototype.renderWithJqueryClone = function () {
   $('#horns').append(clone);
 };
 
+
 $.get('data/page-1.json').then(
   (data) => {
     // console.log('this is our data ', data);
@@ -42,3 +43,23 @@ $.get('data/page-1.json').then(
   }
 );
 
+
+$('select[name="coupleHorns"]').on('change', function (event) {
+  console.log(event.target.value);
+  $('#horns').hide();
+
+  $.get('data/page-1.json').then(
+    (data) => {
+      data.forEach(selected => {
+        if (selected.keyword === event.target.value) {
+          let horn = new Horn(selected.title, selected.image_url, selected.description, selected.keyword, selected.horns);
+          // $('#horns').show();
+          // horn.renderWithJquery().show();
+          
+        }
+      })
+    }
+  )
+
+
+});
