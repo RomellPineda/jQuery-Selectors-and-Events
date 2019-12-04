@@ -27,22 +27,18 @@ Horn.prototype.renderWithJqueryClone = function () {
   clone.find('h2').text(this.title);
   clone.find('h2').text(this.title);
   clone.removeAttr('id');
-  console.log(clone);
+  // console.log('we are in render clone', clone);
 
   $('#horns').append(clone);
 };
 
-let UniWhal = new Horn('UniWhal', 'http://3.bp.blogspot.com/_DBYF1AdFaHw/TE-f0cDQ24I/AAAAAAAACZg/l-FdTZ6M7z8/s1600/Unicorn_and_Narwhal_by_dinglehopper.jpg', 'A unicorn and a narwhal nuzzling their horns', 'narwhal', 1);
-
-
-UniWhal.renderWithJquery();
-
-$.get('page-1.json').then(
+$.get('data/page-1.json').then(
   (data) => {
-    console.log(data);
+    // console.log('this is our data ', data);
     data.forEach(hornObj => {
       let horn = new Horn(hornObj.title, hornObj.image_url, hornObj.description, hornObj.keyword, hornObj.horns);
-      horn.renderWithJqueryClone();
+      horn.renderWithJquery();
     });
   }
 );
+
