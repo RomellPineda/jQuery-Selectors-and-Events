@@ -18,13 +18,10 @@ Horn.prototype.renderWithJquery = function () {
   `);
 }
 
-
-function renderPages (page){
- console.log('render Fired');
- $('#horns').text("");
+function renderPages(page) {
+  $('#horns').text('');
   $.get(`data/page-${page}.json`).then(
     (data) => {
-      // console.log('this is our data ', data);
       data.forEach(hornObj => {
         let horn = new Horn(hornObj.title, hornObj.image_url, hornObj.description, hornObj.keyword, hornObj.horns);
         horn.renderWithJquery();
@@ -32,7 +29,7 @@ function renderPages (page){
     }
   );
 }
- renderPages(1);
+renderPages(1);
 
 $('#coupleHorns').on('change', function () {
   let $selected = $(this).val();
@@ -43,10 +40,8 @@ $('#coupleHorns').on('change', function () {
 
 //lab 03
 
-$('#pages').on('click',function(event){
+$('#pages').on('click', function (event) {
   console.log('pages function')
-  // $('#horns').text('');
   renderPages(event.target.value);
-
 })
 
