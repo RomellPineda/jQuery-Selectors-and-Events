@@ -1,11 +1,19 @@
 'use strict';
 
+const array = [];
+const forSort = [];
+
 function Horn(title, img, description, keyword, numberOfHorns) {
   this.title = title;
   this.img = img;
   this.description = description;
   this.keyword = keyword;
   this.numberOfHorns = numberOfHorns;
+}
+
+Horn.prototype.howManyHorns = function () {
+  console.log(this.numberOfHorns);
+  array.push(this.numberOfHorns);
 }
 
 Horn.prototype.renderWithJquery = function () {
@@ -25,9 +33,14 @@ function renderPages(page) {
       data.forEach(hornObj => {
         let horn = new Horn(hornObj.title, hornObj.image_url, hornObj.description, hornObj.keyword, hornObj.horns);
         horn.renderWithJquery();
+        forSort.push(hornObj);
+        if (!array.includes(horn.numberOfHorns)) {
+          array.push(horn.numberOfHorns);
+        }
       });
     }
   );
+  array.sort();
 }
 renderPages(1);
 
@@ -45,3 +58,17 @@ $('#pages').on('click', function (event) {
   renderPages(event.target.value);
 })
 
+console.log('Sorted array?? ', array);
+
+function callback(a, b) {
+  if (a.hornObj.keyword.length > b.hornObj.keyword.length) {
+    return 1;
+  } else if (b.hornObj.keyword.length > a.hornObj.keyword.length) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+forSort.sort(callback);
+console.log('this is forsort ', forSort);
