@@ -10,28 +10,13 @@ function Horn(title, img, description, keyword, numberOfHorns) {
 
 Horn.prototype.renderWithJquery = function () {
   $('#horns').append(`
-  <div>
+  <div class=${this.keyword}>
     <h2>${this.title}</h2>
     <img src="${this.img}"></img>
     <p>${this.description}</p>
   </div>
   `);
 }
-
-Horn.prototype.renderWithJqueryClone = function () {
-  let clone = $('#horn-template').clone();
-
-  clone.find('h2').text(this.title);
-  clone.find('img').attr('src', this.img);
-  clone.find('p').text(this.description);
-  clone.find('h2').text(this.title);
-  clone.find('h2').text(this.title);
-  clone.removeAttr('id');
-  // console.log('we are in render clone', clone);
-
-  $('#horns').append(clone);
-};
-
 
 $.get('data/page-1.json').then(
   (data) => {
@@ -44,22 +29,8 @@ $.get('data/page-1.json').then(
 );
 
 
-$('select[name="coupleHorns"]').on('change', function (event) {
-  console.log(event.target.value);
-  $('#horns').hide();
-
-  $.get('data/page-1.json').then(
-    (data) => {
-      data.forEach(selected => {
-        if (selected.keyword === event.target.value) {
-          let horn = new Horn(selected.title, selected.image_url, selected.description, selected.keyword, selected.horns);
-          // $('#horns').show();
-          // horn.renderWithJquery().show();
-          
-        }
-      })
-    }
-  )
-
-
+$('#coupleHorns').on('change', function () {
+  let $selected = $(this).val();
+  $('div').hide();
+  $(`div[class="${$selected}"]`).show();
 });
