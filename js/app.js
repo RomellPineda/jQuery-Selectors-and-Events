@@ -18,19 +18,35 @@ Horn.prototype.renderWithJquery = function () {
   `);
 }
 
-$.get('data/page-1.json').then(
-  (data) => {
-    // console.log('this is our data ', data);
-    data.forEach(hornObj => {
-      let horn = new Horn(hornObj.title, hornObj.image_url, hornObj.description, hornObj.keyword, hornObj.horns);
-      horn.renderWithJquery();
-    });
-  }
-);
 
+function renderPages (page){
+ console.log('render Fired');
+ $('#horns').text("");
+  $.get(`data/page-${page}.json`).then(
+    (data) => {
+      // console.log('this is our data ', data);
+      data.forEach(hornObj => {
+        let horn = new Horn(hornObj.title, hornObj.image_url, hornObj.description, hornObj.keyword, hornObj.horns);
+        horn.renderWithJquery();
+      });
+    }
+  );
+}
+ renderPages(1);
 
 $('#coupleHorns').on('change', function () {
   let $selected = $(this).val();
   $('div').hide();
   $(`div[class="${$selected}"]`).show();
 });
+
+
+//lab 03
+
+$('#pages').on('click',function(event){
+  console.log('pages function')
+  // $('#horns').text('');
+  renderPages(event.target.value);
+
+})
+
