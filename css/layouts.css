@@ -1,7 +1,6 @@
 #horns{
-    float:left;
     display: flex;
-    
+    flex-wrap: wrap;
 }
 
 #horns img{
@@ -11,6 +10,5 @@
 
 #horns div,p,h2{
     width:300px;
-    display:inline;
 }
 
