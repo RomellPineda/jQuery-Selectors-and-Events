@@ -26,6 +26,19 @@ Horn.prototype.renderWithJquery = function () {
   `);
 }
 
+function getPagesData(page) {
+  $.get(`data/page-${page}.json`).then(
+    (data) => {
+      data.forEach(hornObj => {
+        array.push(hornObj);
+      })
+    }
+  )
+}
+
+// array will have data for sorting
+
+
 function renderPages(page) {
   $('#horns').text('');
   $.get(`data/page-${page}.json`).then(
@@ -58,17 +71,16 @@ $('#pages').on('click', function (event) {
   renderPages(event.target.value);
 })
 
-console.log('Sorted array?? ', array);
+$('#sort-options').on('change', function() {
+  forSort.sort(function(a, b) {
+    if (a.numberOfHorns > b.numberOfHorns) {
+      return 1;
+    } else if (b.numberOfHorns > a.numberOfHorns) {
+      return -1;
+    } else {
+      return 0;
+    }
+  })
+})
 
-function callback(a, b) {
-  if (a.hornObj.keyword.length > b.hornObj.keyword.length) {
-    return 1;
-  } else if (b.hornObj.keyword.length > a.hornObj.keyword.length) {
-    return -1;
-  } else {
-    return 0;
-  }
-}
-
-forSort.sort(callback);
-console.log('this is forsort ', forSort);
+// console.log('is fort sort sorted?', forSort);
