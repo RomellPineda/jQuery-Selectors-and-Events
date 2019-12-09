@@ -11,11 +11,6 @@ function Horn(title, img, description, keyword, numberOfHorns) {
   this.numberOfHorns = numberOfHorns;
 }
 
-Horn.prototype.renderWithHandlebars = function(){
-  const myHtml = hornTemplate(this);
-  $('#horns').append(myHtml);
-};
-
 function renderWithHandlebars(arr) {
   $('#horns').text('');
   arr.forEach(arrItem => {
@@ -32,7 +27,6 @@ function getHornObjects(page) {
     }
   );
 }
-getHornObjects(1);
 
 $('#coupleHorns').on('change', function () {
   let $selected = $(this).val();
@@ -73,3 +67,5 @@ $('#sort-options').on('change', function(event) {
     renderWithHandlebars(forSort);
   }
 })
+
+getHornObjects(1);
