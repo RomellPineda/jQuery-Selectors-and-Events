@@ -44,7 +44,6 @@ $('#coupleHorns').on('change', function () {
 //lab 03
 
 $('#pages').on('click', function (event) {
-  console.log('pages function')
   getHornObjects(event.target.value);
 })
 
