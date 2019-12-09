@@ -16,16 +16,11 @@ Horn.prototype.renderWithHandlebars = function(){
   $('#horns').append(myHtml);
 };
 
-function renderWithJquery(arr) {
+function renderWithHandlebars(arr) {
   $('#horns').text('');
   arr.forEach(arrItem => {
-    $('#horns').append(`
-    <div class=${arrItem.keyword}>
-      <h2>${arrItem.title}</h2>
-      <img src="${arrItem.image_url}"></img>
-      <p>${arrItem.description}</p>
-    </div>
-    `);
+    const createDiv = hornTemplate(arrItem);
+    $('#horns').append(createDiv);
   })
 }
 
@@ -33,7 +28,7 @@ function getHornObjects(page) {
   $.get(`data/page-${page}.json`).then(
     (data) => {
       forSort = data;
-      renderWithJquery(forSort);
+      renderWithHandlebars(forSort);
     }
   );
 }
@@ -64,7 +59,7 @@ $('#sort-options').on('change', function(event) {
         return 0;
       }
     });
-    renderWithJquery(forSort);
+    renderWithHandlebars(forSort);
   }
   if (event.target.value === 'title') {
     forSort.sort((a, b) => {
@@ -76,6 +71,6 @@ $('#sort-options').on('change', function(event) {
         return 0;
       }
     });
-    renderWithJquery(forSort);
+    renderWithHandlebars(forSort);
   }
 })
