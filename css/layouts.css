@@ -1,14 +1,14 @@
-#horns{
+#horns {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
 
-#horns img{
-    width:300px;
-    height:300px;
+#horns img {
+    width: 300px;
+    height: 300px;
 }
 
-#horns div,p,h2{
-    width:300px;
+#horns div, p, h2 {
+    width: 300px;
 }

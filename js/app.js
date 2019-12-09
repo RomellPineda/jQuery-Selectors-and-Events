@@ -1,61 +1,43 @@
 'use strict';
 
-const array = [];
-const forSort = [];
+let forSort = [];
+const hornTemplate = Handlebars.compile($('#horns').html());
 
 function Horn(title, img, description, keyword, numberOfHorns) {
   this.title = title;
-  this.img = img;
+  this.image_url = img;
   this.description = description;
   this.keyword = keyword;
   this.numberOfHorns = numberOfHorns;
 }
 
-Horn.prototype.howManyHorns = function () {
-  console.log(this.numberOfHorns);
-  array.push(this.numberOfHorns);
-}
+Horn.prototype.renderWithHandlebars = function(){
+  const myHtml = hornTemplate(this);
+  $('#horns').append(myHtml);
+};
 
-Horn.prototype.renderWithJquery = function () {
-  $('#horns').append(`
-  <div class=${this.keyword}>
-    <h2>${this.title}</h2>
-    <img src="${this.img}"></img>
-    <p>${this.description}</p>
-  </div>
-  `);
-}
-
-function getPagesData(page) {
-  $.get(`data/page-${page}.json`).then(
-    (data) => {
-      data.forEach(hornObj => {
-        array.push(hornObj);
-      })
-    }
-  )
-}
-
-// array will have data for sorting
-
-
-function renderPages(page) {
+function renderWithJquery(arr) {
   $('#horns').text('');
+  arr.forEach(arrItem => {
+    $('#horns').append(`
+    <div class=${arrItem.keyword}>
+      <h2>${arrItem.title}</h2>
+      <img src="${arrItem.image_url}"></img>
+      <p>${arrItem.description}</p>
+    </div>
+    `);
+  })
+}
+
+function getHornObjects(page) {
   $.get(`data/page-${page}.json`).then(
     (data) => {
-      data.forEach(hornObj => {
-        let horn = new Horn(hornObj.title, hornObj.image_url, hornObj.description, hornObj.keyword, hornObj.horns);
-        horn.renderWithJquery();
-        forSort.push(hornObj);
-        if (!array.includes(horn.numberOfHorns)) {
-          array.push(horn.numberOfHorns);
-        }
-      });
+      forSort = data;
+      renderWithJquery(forSort);
     }
   );
-  array.sort();
 }
-renderPages(1);
+getHornObjects(1);
 
 $('#coupleHorns').on('change', function () {
   let $selected = $(this).val();
@@ -68,19 +50,32 @@ $('#coupleHorns').on('change', function () {
 
 $('#pages').on('click', function (event) {
   console.log('pages function')
-  renderPages(event.target.value);
+  getHornObjects(event.target.value);
 })
 
-$('#sort-options').on('change', function() {
-  forSort.sort(function(a, b) {
-    if (a.numberOfHorns > b.numberOfHorns) {
-      return 1;
-    } else if (b.numberOfHorns > a.numberOfHorns) {
-      return -1;
-    } else {
-      return 0;
-    }
-  })
+$('#sort-options').on('change', function(event) {
+  if (event.target.value === 'number') {
+    forSort.sort((a, b) => {
+      if (a.horns > b.horns) {
+        return 1;
+      } else if (a.horns < b.horns) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    renderWithJquery(forSort);
+  }
+  if (event.target.value === 'title') {
+    forSort.sort((a, b) => {
+      if (a.title > b.title) {
+        return 1;
+      } else if (a.title < b.title) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    renderWithJquery(forSort);
+  }
 })
-
-// console.log('is fort sort sorted?', forSort);
