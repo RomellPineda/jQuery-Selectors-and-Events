@@ -1,7 +1,7 @@
 'use strict';
 
 let forSort = [];
-const hornTemplate = Handlebars.compile($('#horns').html());
+const hornTemplate = Handlebars.compile($('#horn-template').html());
 
 function Horn(title, img, description, keyword, numberOfHorns) {
   this.title = title;
